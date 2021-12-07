@@ -9,16 +9,21 @@ export default class Main extends React.Component {
             isLoaded: false,
             items: [],
             modalIsOpen: false,
-            setIsOpen: false
+            setIsOpen: false,
+            modalId: 0
         };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
     }
 
-    openModal = () => this.setState({setIsOpen: !this.state.setIsOpen})
+    openModal = (modalId) => this.setState({
+                                    modalId,
+                                    setIsOpen: !this.state.setIsOpen
+                            })
 
 
     closeModal = () => this.setState({setIsOpen: !this.state.setIsOpen});
+
 
     componentDidMount() {
         fetch("https://api.randomuser.me/1.0/?results=50&nat=gb,us&inc=gender,name,location,email,phone,picture")
@@ -48,26 +53,25 @@ export default class Main extends React.Component {
         } else {
             return(
                 <ul>
-                    {items.map(item => (
-                        <li key={item.name}>
-                            <img src={item.picture.medium} onClick={this.openModal} alt="picture"/>
-                            <ModalWindow     show={this.state.setIsOpen} handleClose={this.closeModal}>
+                    {items.map((item, i) => (
+                        <li key={item.name} >
+                            <img src={item.picture.medium} onClick={() => {this.openModal(i)}} alt="picture"/>
+                            <ModalWindow show={this.state.setIsOpen && this.state.modalId === i} handleClose={this.closeModal}>
                                 <img src={item.picture.large} alt="picture"/>
                                 <ul>
-                                    <li>{item.location.stree}</li>
-                                    <li>{item.location.city}</li>
-                                    <li>{item.location.state}</li>
-                                    <li>{item.email}</li>
-                                    <li>{item.phone}</li>
-                                    <li>{item.location.postcode}</li>
+                                    <li>{"street: " + item.location.street}</li>
+                                    <li>{"city: " + item.location.city}</li>
+                                    <li>{"state: " + item.location.state}</li>
+                                    <li>{"email: " + item.email}</li>
+                                    <li>{"phone: " + item.phone}</li>
+                                    <li>{"postcode: " + item.location.postcode}</li>
                                 </ul>
                             </ModalWindow><br/>
-                            {item.name.title + "."}  {item.name.first} {item.name.last} <br/><br/><br/>
+                            <button onClick={() => {this.openModal(i)}}>{item.name.title + "." + item.name.first + " " + item.name.last}</button> <br/><br/><br/>
                         </li>
                     ))}
                 </ul>
             )
         }
     }
-
 }
