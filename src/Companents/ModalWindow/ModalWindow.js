@@ -1,4 +1,4 @@
-import '../css/Modal.css'
+import './ModalWindow.css'
 
 
 const ModalWindow = ({ handleClose, show, children }) => {
