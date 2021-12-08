@@ -1,6 +1,6 @@
 import React from "react";
 import ModalWindow from './ModalWindow/ModalWindow'
-
+import './Main.css'
 
 export default class Main extends React.Component {
     state = {
@@ -84,10 +84,10 @@ export default class Main extends React.Component {
                     <option id="sortByReverseAlphabet" value="Обратная сортировка">Обратная сортировка</option>
                 </select>
                 <div>
-                    <ul>
+                    <ul className="ul-content">
                         {items.map(( item, i) => (
-                            <li key={ i }>
-                                <img src={ item.picture.medium } onClick={() => { this.openModal(i) }} alt="avatar"/>
+                            <li className="li-content" key={ i }>
+                                <img src={ item.picture.medium } onClick={() => { this.openModal(i) }} alt="avatar"/><br/>
                                 <ModalWindow show={this.state.setIsOpen && modalId === i}
                                               handleClose={this.closeModal}>
                                     <img src={item.picture.large} alt="avatar"/>
@@ -99,7 +99,7 @@ export default class Main extends React.Component {
                                         <li>{`phone: ${item.phone}`}</li>
                                         <li>{`postcode: ${item.location.postcode}`}</li>
                                     </ul>
-                                </ModalWindow><br/>
+                                </ModalWindow>
                                 <span>{`${ item.name.title }. ${ item.name.first } ${ item.name.last }`}</span> <br/><br/><br/>
                             </li>
                         ))}
