@@ -10,9 +10,7 @@ export default class Main extends React.Component {
         modalIsOpen: false,
         setIsOpen: false,
         modalId: 0,
-        array: [],
-        value: "",
-        id: 0
+        value: ""
     }
 
 
@@ -90,21 +88,23 @@ export default class Main extends React.Component {
                         {items.map(( item, i) => (
                             <li key={ i }>
                                 <img src={ item.picture.medium } onClick={() => { this.openModal(i) }} alt="avatar"/>
-                                <ModalWindow show={ this.state.setIsOpen && modalId === i } handleClose={ this.closeModal }>
-                                    <img src={ item.picture.large } alt="avatar"/>
+                                <ModalWindow show={this.state.setIsOpen && modalId === i}
+                                              handleClose={this.closeModal}>
+                                    <img src={item.picture.large} alt="avatar"/>
                                     <ul>
-                                        <li>{ `street: ${ item.location.street }` }</li>
-                                        <li>{ `city: ${ item.location.city }` }</li>
-                                        <li>{ `state: ${ item.location.state }` }</li>
-                                        <li>{ `email: ${ item.email }` }</li>
-                                        <li>{ `phone: ${ item.phone }` }</li>
-                                        <li>{ `postcode: ${ item.location.postcode }` }</li>
+                                        <li>{`street: ${item.location.street}`}</li>
+                                        <li>{`city: ${item.location.city}`}</li>
+                                        <li>{`state: ${item.location.state}`}</li>
+                                        <li>{`email: ${item.email}`}</li>
+                                        <li>{`phone: ${item.phone}`}</li>
+                                        <li>{`postcode: ${item.location.postcode}`}</li>
                                     </ul>
                                 </ModalWindow><br/>
                                 <span>{`${ item.name.title }. ${ item.name.first } ${ item.name.last }`}</span> <br/><br/><br/>
                             </li>
                         ))}
                     </ul>
+                    {/*<ModalWindow show={ this.state.setIsOpen } items={items[modalId]} handleClose={ this.closeModal() }/>*/}
                 </div>
             </div>
         )
