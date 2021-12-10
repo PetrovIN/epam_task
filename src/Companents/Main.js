@@ -1,8 +1,13 @@
 import React from "react";
 import ModalWindow from './ModalWindow/ModalWindow'
 import './Main.css'
-import SortByFirstName from "./SortByFirstName/SortByFirstName";
+import Select from "react-select";
 
+
+const options = [
+    {value: 'SortByAlphabet', label:'Сортировка по алфавиту'},
+    {value: 'SortByReverseAlphabet', label:'Обратная сортировка'}
+];
 
 export default class Main extends React.Component {
     state = {
@@ -11,7 +16,8 @@ export default class Main extends React.Component {
         items: [],
         modalIsOpen: false,
         setIsOpen: false,
-        modalId: 0
+        modalId: 0,
+        selectedOption: null
     }
 
 
@@ -42,12 +48,25 @@ export default class Main extends React.Component {
 
     closeModal = () => this.setState({setIsOpen: !this.state.setIsOpen});
 
+    sortByFirstName = (selectedOption) => {
+        this.setState({selectedOption});
+        this.state.items.sort((a, b) => {
+            if (selectedOption.value === "SortByReverseAlphabet") {
+            return b.name.first.localeCompare(a.name.first)
+            } else if (selectedOption.value === "SortByAlphabet") {
+                return a.name.first.localeCompare(b.name.first)
+            }
+            return this.state.items;
+        })
+
+    }
+
     _renderError = () => <p>Error {this.state.error.message}</p>
 
     _renderLoading = () => <p>Loading...</p>
 
     render() {
-        const {error, isLoaded, items, modalId} = this.state;
+        const {error, isLoaded, items, modalId, selectedOption} = this.state;
 
         if (error) {
             return this._renderError()
@@ -60,7 +79,12 @@ export default class Main extends React.Component {
         return (
             <div className="content-container">
                 <div>
-                    <SortByFirstName items={items} />
+                    <Select
+                        value = {selectedOption}
+                        onChange = {this.sortByFirstName}
+                        options = {options}
+                        defaultValue={'SortByAlphabet'}
+                    />
                 </div>
                 <div>
                     <ul className="ul-content">
