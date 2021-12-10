@@ -1,6 +1,8 @@
 import React from "react";
 import ModalWindow from './ModalWindow/ModalWindow'
 import './Main.css'
+import SortByFirstName from "./SortByFirstName/SortByFirstName";
+
 
 export default class Main extends React.Component {
     state = {
@@ -9,8 +11,7 @@ export default class Main extends React.Component {
         items: [],
         modalIsOpen: false,
         setIsOpen: false,
-        modalId: 0,
-        value: ""
+        modalId: 0
     }
 
 
@@ -41,18 +42,6 @@ export default class Main extends React.Component {
 
     closeModal = () => this.setState({setIsOpen: !this.state.setIsOpen});
 
-    sortByFirstName = (e) => {
-        this.setState({value: e.target.value})
-        this.state.items.sort((a, b) => {
-            if (this.state.value === "Сортировка по алфавиту") {
-                return b.name.first.localeCompare(a.name.first)
-            } else if (this.state.value === "Обратная сортировка") {
-                return a.name.first.localeCompare(b.name.first)
-            }
-            return this.state.items;
-        })
-    }
-
     _renderError = () => <p>Error {this.state.error.message}</p>
 
     _renderLoading = () => <p>Loading...</p>
@@ -61,13 +50,6 @@ export default class Main extends React.Component {
 
     render() {
         const {error, isLoaded, items, modalId} = this.state;
-
-        // return(
-        //     <div>
-        //         <ItemsList />
-        //         {this.state.activeId && <ModalWindow item={items[this.state.activeId]} onCLose={this._onClose} />}
-        //     </div>
-        // )
 
         if (error) {
             return this._renderError()
@@ -79,27 +61,15 @@ export default class Main extends React.Component {
 
         return (
             <div className="content-container">
-                <select id="selectSort" onChange={this.sortByFirstName}>
-                    <option id="sortByAlphabet" value="Сортировка по алфавиту" >Сортировка по алфавиту</option>
-                    <option id="sortByReverseAlphabet" value="Обратная сортировка">Обратная сортировка</option>
-                </select>
+                <div>
+                    <SortByFirstName items={items} />
+                </div>
                 <div>
                     <ul className="ul-content">
                         {items.map(( item, i) => (
                             <li className="li-content" key={ i }>
                                 <img src={ item.picture.medium } onClick={() => { this.openModal(i) }} alt="avatar"/><br/>
-                                <ModalWindow show={this.state.setIsOpen && modalId === i}
-                                              handleClose={this.closeModal}>
-                                    <img src={item.picture.large} alt="avatar"/>
-                                    <ul>
-                                        <li>{`street: ${item.location.street}`}</li>
-                                        <li>{`city: ${item.location.city}`}</li>
-                                        <li>{`state: ${item.location.state}`}</li>
-                                        <li>{`email: ${item.email}`}</li>
-                                        <li>{`phone: ${item.phone}`}</li>
-                                        <li>{`postcode: ${item.location.postcode}`}</li>
-                                    </ul>
-                                </ModalWindow>
+                                <ModalWindow show={this.state.setIsOpen && modalId === i} handleClose={this.closeModal} item={item} />
                                 <span>{`${ item.name.title }. ${ item.name.first } ${ item.name.last }`}</span> <br/><br/><br/>
                             </li>
                         ))}
