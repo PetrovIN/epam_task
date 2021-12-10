@@ -5,6 +5,7 @@ const SortByFirstName = (props) => {
     const [value, setValue] = useState("Сортировка по алфавиту");
 
     const firstSorting = () => {
+        console.log(props.items)
         props.items.sort((a,b) => {
             return a.name.first.localeCompare(b.name.first)
         })
@@ -23,7 +24,8 @@ const SortByFirstName = (props) => {
             return props.items;
         })
     }
-    return(
+
+    return (
         <select name="sort-select" id="sort-select" onChange={sortByName}>
             <option value="Сортировка по алфавиту">Сортировка по алфавиту</option>
             <option value="Обратная сортировка">Обратная сортировка</option>

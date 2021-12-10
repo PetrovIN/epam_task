@@ -3,7 +3,7 @@ import React from "react";
 import cross from "./17047.png"
 
 
-const ModalWindow = ({ handleClose, show, children, item }) => {
+const ModalWindow = ({ handleClose, show, item }) => {
     const showHideClassName = show ? "modal display-block" : "modal display-none";
     return (
         <div className={showHideClassName}>
@@ -22,7 +22,6 @@ const ModalWindow = ({ handleClose, show, children, item }) => {
                         <li>{`postcode: ${item.location.postcode}`}</li>
                     </ul>
                 </div>
-                {children}
             </section>
         </div>
     );

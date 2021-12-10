@@ -46,8 +46,6 @@ export default class Main extends React.Component {
 
     _renderLoading = () => <p>Loading...</p>
 
-   // _onClose = () => this.setState({ activeId: null })
-
     render() {
         const {error, isLoaded, items, modalId} = this.state;
 
@@ -69,12 +67,11 @@ export default class Main extends React.Component {
                         {items.map(( item, i) => (
                             <li className="li-content" key={ i }>
                                 <img src={ item.picture.medium } onClick={() => { this.openModal(i) }} alt="avatar"/><br/>
-                                <ModalWindow show={this.state.setIsOpen && modalId === i} handleClose={this.closeModal} item={item} />
+                                <ModalWindow show={this.state.setIsOpen && modalId === i} handleClose={ this.closeModal } item={item} />
                                 <span>{`${ item.name.title }. ${ item.name.first } ${ item.name.last }`}</span> <br/><br/><br/>
                             </li>
                         ))}
                     </ul>
-                    {/*<ModalWindow show={ this.state.setIsOpen } items={items[modalId]} handleClose={ this.closeModal() }/>*/}
                 </div>
             </div>
         )
